@@ -5,7 +5,7 @@ import fastifyCors from '@fastify/cors';
 import fastify from "fastify";
 
 import { ZodTypeProvider, serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
-import { teste } from './routes/teste';
+import { user } from './routes/user/user-route';
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -16,11 +16,9 @@ app.register(fastifyCors, {
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
 
-app.register(teste)
+app.register(user)
 
-const port = Number(process.env.PORT)
-
-app.listen({port: port, host: '0.0.0.0'}).then(()=>{
+app.listen({port: Number(process.env.PORT), host: '0.0.0.0'}).then(()=>{
   console.log(`Server running on port ${process.env.PORT}. Version: ${packageJson.version}`)
 }).catch((err)=>{   
   app.log.error(err)
