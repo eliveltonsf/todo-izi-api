@@ -13,6 +13,7 @@
   "dependencies": {
     "@prisma/client": "^5.13.0",
     "@types/node": "^20.12.8",
+    "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
     "fastify": "^4.26.2",
     "fastify-type-provider-zod": "^1.1.9",
@@ -24,6 +25,7 @@
   },
   "devDependencies": {
     "@fastify/cors": "^9.0.1",
+    "@types/bcrypt": "^5.0.2",
     "prisma": "^5.13.0"
   }
 }
