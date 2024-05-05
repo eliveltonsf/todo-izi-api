@@ -52,7 +52,12 @@ export const paramTaskSchema = z.object({
   id: z.string(),
 });
 
+export const deleteTaskResponseSchema = z.object({
+  message: z.string(),
+});
+
 export const tasksResponseSchema = z.array(taskResponseSchema);
 
 export type CreateTaskType = z.infer<typeof createTaskSchema>;
 export type UpdateTaskType = z.infer<typeof updateTaskSchema>;
+export type ParamsTaskType = z.infer<typeof paramTaskSchema>;
