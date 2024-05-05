@@ -23,6 +23,8 @@ export async function taskRoutes(app: FastifyInstance) {
     {
       onRequest: [verifyJwt],
       schema: {
+        summary: "Create an Task",
+        tags: ["tasks"],
         body: taskSchema,
         response: {
           201: taskResponseSchema,
@@ -37,6 +39,8 @@ export async function taskRoutes(app: FastifyInstance) {
     {
       onRequest: [verifyJwt],
       schema: {
+        summary: "List the logged in user’s tasks",
+        tags: ["tasks"],
         response: {
           200: tasksResponseSchema,
         },
@@ -50,6 +54,8 @@ export async function taskRoutes(app: FastifyInstance) {
     {
       onRequest: [verifyJwt],
       schema: {
+        summary: "Update any value of a task",
+        tags: ["tasks"],
         body: updateTaskSchema,
         params: paramTaskSchema,
         response: {
@@ -65,6 +71,8 @@ export async function taskRoutes(app: FastifyInstance) {
     {
       onRequest: [verifyJwt],
       schema: {
+        summary: "Delete task",
+        tags: ["tasks"],
         params: paramTaskSchema,
         response: {
           201: deleteTaskResponseSchema,

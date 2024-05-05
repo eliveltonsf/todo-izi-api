@@ -18,6 +18,8 @@ export async function userRoutes(app: FastifyInstance) {
     "/",
     {
       schema: {
+        summary: "Create an user",
+        tags: ["users"],
         body: createUserSchema,
         response: {
           201: createUserResponseSchema,
@@ -27,14 +29,24 @@ export async function userRoutes(app: FastifyInstance) {
     registerUserHandler
   );
 
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .get("/", { onRequest: [verifyJwt] }, getUsersHandler);
+  app.withTypeProvider<ZodTypeProvider>().get(
+    "/",
+    {
+      onRequest: [verifyJwt],
+      schema: {
+        summary: "List logged in user information",
+        tags: ["users"],
+      },
+    },
+    getUsersHandler
+  );
 
   app.withTypeProvider<ZodTypeProvider>().post(
     "/login",
     {
       schema: {
+        summary: "Log in as user and generate token",
+        tags: ["users"],
         body: loginSchema,
         response: {
           200: loginResponseSchema,

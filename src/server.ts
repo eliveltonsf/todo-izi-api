@@ -5,8 +5,11 @@ import fastifyCors from "@fastify/cors";
 import fastify from "fastify";
 
 import fastifyJwt from "@fastify/jwt";
+import fastifySwagger from "@fastify/swagger";
+import fastifySwaggerUi from "@fastify/swagger-ui";
 import {
   ZodTypeProvider,
+  jsonSchemaTransform,
   serializerCompiler,
   validatorCompiler,
 } from "fastify-type-provider-zod";
@@ -21,6 +24,23 @@ app.register(fastifyCors, {
 
 app.register(fastifyJwt, {
   secret: String(process.env.SECRET),
+});
+
+app.register(fastifySwagger, {
+  swagger: {
+    consumes: ["applicantion/json"],
+    produces: ["applicantion/json"],
+    info: {
+      title: packageJson.name,
+      description: `Especificações da API para o back-end da aplicação ${packageJson.name}`,
+      version: "1.0.0",
+    },
+  },
+  transform: jsonSchemaTransform,
+});
+
+app.register(fastifySwaggerUi, {
+  routePrefix: "/docs",
 });
 
 app.setValidatorCompiler(validatorCompiler);
