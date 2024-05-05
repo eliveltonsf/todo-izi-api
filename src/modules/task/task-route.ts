@@ -3,10 +3,12 @@ import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { verifyJwt } from "../user/user-controller";
 import {
   createTaskHandler,
+  deleteTaskHandler,
   getTasksHandler,
   updateTaskHandler,
 } from "./task-controller";
 import {
+  deleteTaskResponseSchema,
   paramTaskSchema,
   taskResponseSchema,
   taskSchema,
@@ -56,5 +58,19 @@ export async function taskRoutes(app: FastifyInstance) {
       },
     },
     updateTaskHandler
+  );
+
+  app.withTypeProvider<ZodTypeProvider>().delete(
+    "/:id",
+    {
+      onRequest: [verifyJwt],
+      schema: {
+        params: paramTaskSchema,
+        response: {
+          201: deleteTaskResponseSchema,
+        },
+      },
+    },
+    deleteTaskHandler
   );
 }
