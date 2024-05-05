@@ -1,5 +1,5 @@
 import { prisma } from "../../lib/prisma";
-import { CreateTaskType, UpdateTaskType } from "./task-schema";
+import { CreateTaskType, ParamsTaskType, UpdateTaskType } from "./task-schema";
 
 export async function createTask(data: CreateTaskType) {
   const { title, description, status, userId } = data;
@@ -55,6 +55,18 @@ export async function updateTask(data: UpdateTaskType & { id: number }) {
     },
     where: {
       id,
+    },
+  });
+
+  return task;
+}
+
+export async function deleteTask(data: ParamsTaskType) {
+  const { id } = data;
+
+  const task = prisma.task.delete({
+    where: {
+      id: Number(id),
     },
   });
 
