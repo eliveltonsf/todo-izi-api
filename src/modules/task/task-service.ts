@@ -4,8 +4,6 @@ import { CreateTaskType, ParamsTaskType, UpdateTaskType } from "./task-schema";
 export async function createTask(data: CreateTaskType) {
   const { title, description, status, userId } = data;
 
-  console.log("dataservice:", { data });
-
   const task = prisma.task.create({
     data: {
       title,
@@ -43,8 +41,6 @@ export function getTasks(userId: string) {
 
 export async function updateTask(data: UpdateTaskType & { id: number }) {
   const { title, description, status, id, updatedAt } = data;
-
-  console.log("dataserviceUpdate:", { data });
 
   const task = prisma.task.update({
     data: {

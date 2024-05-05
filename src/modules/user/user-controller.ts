@@ -26,8 +26,6 @@ export async function registerUserHandler(
 export async function getUsersHandler() {
   const users = await findUsers();
 
-  console.log(users);
-
   return users.map((user) => {
     return {
       id: user.id,

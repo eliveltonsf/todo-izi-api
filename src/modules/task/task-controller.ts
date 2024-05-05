@@ -76,8 +76,6 @@ export async function updateTaskHandler(
     updatedAt: new Date(),
   });
 
-  console.log("response", task);
-
   return reply.status(201).send(task);
 }
 
