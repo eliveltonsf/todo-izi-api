@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { createTask, getTasks, updateTask } from "./task-service";
+import { createTask, deleteTask, getTasks, updateTask } from "./task-service";
 
 import { decodeTokenJWT } from "../../schemas";
 import { generateSafeParse } from "../../util/generateSafeParse";
@@ -79,4 +79,23 @@ export async function updateTaskHandler(
   console.log("response", task);
 
   return reply.status(201).send(task);
+}
+
+export async function deleteTaskHandler(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const idTask = await generateSafeParse(
+    request,
+    reply,
+    paramTaskSchema,
+    "Check that all information is correct.",
+    "params"
+  );
+
+  await deleteTask({
+    id: idTask.id,
+  });
+
+  return reply.status(201).send({ message: "Task deleted successfully" });
 }
