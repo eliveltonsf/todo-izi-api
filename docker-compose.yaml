@@ -1,0 +1,23 @@
+version: "3.7"
+
+services:
+  postgres:
+    image: postgres:16.2-alpine3.19
+    container_name: db-todo-izi
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=izi
+      - POSTGRES_PASSWORD=adminizi
+      - POSTGRES_DB=todoizi
+    volumes:
+      - "db:/var/lib/postgresql/data"
+    networks:
+      - todoizi
+
+networks:
+  todoizi:
+    driver: bridge
+
+volumes:
+  db:
