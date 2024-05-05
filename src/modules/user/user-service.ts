@@ -28,12 +28,10 @@ export async function createUser(dataUser: CreateUserType) {
   return user;
 }
 
-export async function findUsers() {
-  return prisma.user.findMany({
-    select: {
-      email: true,
-      name: true,
-      id: true,
+export async function listUserProfile(id: string) {
+  return prisma.user.findUnique({
+    where: {
+      id,
     },
   });
 }

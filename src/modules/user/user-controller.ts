@@ -1,8 +1,10 @@
 import bcrypt from "bcrypt";
 import { randomUUID } from "crypto";
 import { FastifyReply, FastifyRequest } from "fastify";
+import { decodeTokenJWT } from "../../schemas";
+import { generateSafeParse } from "../../util/generateSafeParse";
 import { CreateUserType, LoginInput } from "./user-schema";
-import { createUser, findUserByEmail, findUsers } from "./user-service";
+import { createUser, findUserByEmail, listUserProfile } from "./user-service";
 
 export async function registerUserHandler(
   request: FastifyRequest<{
@@ -23,16 +25,21 @@ export async function registerUserHandler(
   return reply.status(201).send({ ...user, id: randomUUID() });
 }
 
-export async function getUsersHandler() {
-  const users = await findUsers();
+export async function getUsersHandler(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const userId = await generateSafeParse(
+    request,
+    reply,
+    decodeTokenJWT,
+    "Enter the access token properly.",
+    "user"
+  );
 
-  return users.map((user) => {
-    return {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-    };
-  });
+  const user = await listUserProfile(userId.sub);
+
+  return user;
 }
 
 export async function verifyJwt(request: FastifyRequest, reply: FastifyReply) {
