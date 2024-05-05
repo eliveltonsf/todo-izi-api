@@ -14,36 +14,37 @@ export async function registerUserHandler(
 
   const userExist = await findUserByEmail(body.email);
 
-  if(userExist){
-    return reply.status(401).send('User already exists!');
-  } 
+  if (userExist) {
+    return reply.status(401).send("User already exists!");
+  }
 
   const user = await createUser(body);
-   
-  return reply.status(201).send({...user, id: randomUUID() });
+
+  return reply.status(201).send({ ...user, id: randomUUID() });
 }
 
-export async function getUsersHandler(
-){
+export async function getUsersHandler() {
   const users = await findUsers();
 
-  console.log(users)
+  console.log(users);
 
-  return users.map(user => {
-      return {
-        id: user.id,
-        name: user.name,
-        email: user.email
-      }
-    })
+  return users.map((user) => {
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+    };
+  });
 }
 
 export async function verifyJwt(request: FastifyRequest, reply: FastifyReply) {
-	try {
-		await request.jwtVerify();
-	} catch (err) {
-		return reply.status(401).send({ message: 'Enter the access token properly.' });
-	}
+  try {
+    await request.jwtVerify();
+  } catch (err) {
+    return reply
+      .status(401)
+      .send({ message: "Enter the access token properly." });
+  }
 }
 
 export async function loginHandler(
@@ -58,19 +59,22 @@ export async function loginHandler(
   const user = await findUserByEmail(body.email);
 
   if (!user) {
-    return reply.status(404).send({err: 'User not found'});
+    return reply.status(404).send({ err: "User not found" });
   }
 
   const correctUser = bcrypt.compareSync(body.password, user.password);
 
   if (!correctUser) {
-    return reply.status(400).send({err: 'Invalid email or password'});
+    return reply.status(400).send({ err: "Invalid email or password" });
   }
 
   try {
-    const token = await reply.jwtSign({email: user.email}, {sign: { sub: user.id}});
-    return reply.send({accessToken: token});
-  } catch(err) {
-    return reply.status(400).send({msg: 'Internal failure', err});
+    const token = await reply.jwtSign(
+      { email: user.email },
+      { sign: { sub: user.id } }
+    );
+    return reply.send({ accessToken: token });
+  } catch (err) {
+    return reply.status(400).send({ msg: "Internal failure", err });
   }
 }

@@ -1,24 +1,21 @@
 import { prisma } from "../../lib/prisma";
 import { CreateTaskType, UpdateTaskType } from "./task-schema";
 
-export async function createTask(
-  data: CreateTaskType
-){
+export async function createTask(data: CreateTaskType) {
+  const { title, description, status, userId } = data;
 
-  const {title, description, status, userId} = data
-
-  console.log("dataservice:",{data})
+  console.log("dataservice:", { data });
 
   const task = prisma.task.create({
-    data:{
+    data: {
       title,
       description,
       status,
-      userId
-    }
-  })
+      userId,
+    },
+  });
 
-  return task
+  return task;
 }
 
 export function getTasks(userId: string) {
@@ -31,40 +28,35 @@ export function getTasks(userId: string) {
       createdAt: true,
       updatedAt: true,
       userId: true,
-      user:{
+      user: {
         select: {
           name: true,
           id: true,
         },
-      }      
+      },
     },
-    where:{
-      userId
-    }
+    where: {
+      userId,
+    },
   });
 }
 
+export async function updateTask(data: UpdateTaskType & { id: number }) {
+  const { title, description, status, id, updatedAt } = data;
 
-export async function updateTask(
-  data: UpdateTaskType & {id: number}
-){
-
-  const {title, description, status, id, updatedAt} = data
-
-
-  console.log("dataserviceUpdate:",{data})
+  console.log("dataserviceUpdate:", { data });
 
   const task = prisma.task.update({
-    data:{
+    data: {
       title,
       description,
       status,
-      updatedAt
+      updatedAt,
     },
     where: {
-      id
-    }
-  })
+      id,
+    },
+  });
 
-  return task
+  return task;
 }
