@@ -1,9 +1,20 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { createTask, deleteTask, getTasks, updateTask } from "./task-service";
+import {
+  createTask,
+  deleteTask,
+  getTasks,
+  tasksCountForUser,
+  updateTask,
+} from "./task-service";
 
 import { decodeTokenJWT } from "../../schemas";
 import { generateSafeParse } from "../../util/generateSafeParse";
-import { paramTaskSchema, taskSchema, updateTaskSchema } from "./task-schema";
+import {
+  paramListTaskSchema,
+  paramTaskSchema,
+  taskSchema,
+  updateTaskSchema,
+} from "./task-schema";
 
 export async function createTaskHandler(
   request: FastifyRequest,
@@ -45,9 +56,33 @@ export async function getTasksHandler(
     "user"
   );
 
-  const products = await getTasks(userId.sub);
+  const paginationParams = await generateSafeParse(
+    request,
+    reply,
+    paramListTaskSchema,
+    "Enter the access token properly.",
+    "query"
+  );
 
-  return products;
+  console.log(paginationParams.offset, paginationParams.limit);
+
+  const startIndex =
+    (Number(paginationParams.offset) - 1) * Number(paginationParams.limit);
+  const endIndex = startIndex + Number(paginationParams.limit);
+
+  console.log("teste query", startIndex, endIndex);
+
+  const tasks = await getTasks(userId.sub, startIndex, endIndex);
+
+  const amountItems = await tasksCountForUser(userId.sub);
+
+  const totalPages = Math.ceil(
+    amountItems._all / Number(paginationParams.limit)
+  );
+
+  return reply
+    .status(201)
+    .send({ tasks, amountItems: amountItems._all, totalPages });
 }
 
 export async function updateTaskHandler(

@@ -16,8 +16,10 @@ export async function createTask(data: CreateTaskType) {
   return task;
 }
 
-export function getTasks(userId: string) {
+export function getTasks(userId: string, startIndex: number, endIndex: number) {
   return prisma.task.findMany({
+    skip: startIndex,
+    take: endIndex,
     select: {
       id: true,
       title: true,
@@ -32,6 +34,17 @@ export function getTasks(userId: string) {
           id: true,
         },
       },
+    },
+    where: {
+      userId,
+    },
+  });
+}
+
+export function tasksCountForUser(userId: string) {
+  return prisma.task.count({
+    select: {
+      _all: true, // Count all non-null field values
     },
     where: {
       userId,

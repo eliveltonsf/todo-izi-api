@@ -6,14 +6,16 @@ export async function generateSafeParse<T>(
   reply: FastifyReply,
   schema: ZodType<T, any>,
   messageError: string,
-  typeRequest: "body" | "user" | "params"
+  typeRequest: "body" | "user" | "params" | "query"
 ): Promise<T> {
   const valueParsed = schema.safeParse(
     typeRequest === "user"
       ? request.user
       : typeRequest === "body"
       ? request.body
-      : request.params
+      : typeRequest === "params"
+      ? request.params
+      : request.query
   );
 
   if (!valueParsed.success) {

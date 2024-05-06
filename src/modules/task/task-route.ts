@@ -9,6 +9,7 @@ import {
 } from "./task-controller";
 import {
   deleteTaskResponseSchema,
+  paramListTaskSchema,
   paramTaskSchema,
   taskResponseSchema,
   taskSchema,
@@ -41,6 +42,7 @@ export async function taskRoutes(app: FastifyInstance) {
       schema: {
         summary: "List the logged in user’s tasks",
         tags: ["tasks"],
+        querystring: paramListTaskSchema,
         response: {
           200: tasksResponseSchema,
         },

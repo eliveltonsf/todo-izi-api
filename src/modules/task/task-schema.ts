@@ -52,6 +52,11 @@ export const paramTaskSchema = z.object({
   id: z.string(),
 });
 
+export const paramListTaskSchema = z.object({
+  offset: z.string().optional(),
+  limit: z.string().optional(),
+});
+
 export const deleteTaskResponseSchema = z.object({
   message: z.string(),
 });
