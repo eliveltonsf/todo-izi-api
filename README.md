@@ -24,7 +24,7 @@
 </h2>
 
 - [Node.js](https://nodejs.org/pt-br) using the framework [Fastify](https://fastify.dev/)
-- [Prima](https://nodejs.org/pt-br) is an open-source ORM for Node.js and TypeScript.
+- [Prisma](https://www.prisma.io/) is an open-source ORM for Node.js and TypeScript.
 - [Typescript](https://www.typescriptlang.org/) for element typing
 - [Docker](https://www.docker.com/) to work with containers and upload postgres without the need for local installation
 - [Swagger](https://swagger.io/) to document all methods implemented in the api
@@ -42,7 +42,7 @@ The objective of this challenge is to assess the participant's ability to develo
 ⌨️ Prerequisites
 </h2>
 
-Before starting, you will need to have the following tools installed on your machine: [git](https://git-scm.com/downloads), [Node.js](https://nodejs.org/en/), [npm](https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable) and the [docker](https://www.docker.com/)
+Before starting, you will need to have the following tools installed on your machine: [GIT](https://git-scm.com/downloads), [Node.js](https://nodejs.org/en/) and the [Docker](https://www.docker.com/)
 
 ###### You will also need to place the ".env" file in the root of the project, this file will be sent via email, as it contains confidential data
 
