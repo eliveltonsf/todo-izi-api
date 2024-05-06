@@ -35,6 +35,7 @@ export const loginSchema = z.object({
 
 export const loginResponseSchema = z.object({
   accessToken: z.string(),
+  name: z.string(),
 });
 
 export type CreateUserType = z.infer<typeof createUserSchema>;

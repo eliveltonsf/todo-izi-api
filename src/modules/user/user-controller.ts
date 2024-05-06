@@ -78,7 +78,8 @@ export async function loginHandler(
       { email: user.email },
       { sign: { sub: user.id } }
     );
-    return reply.send({ accessToken: token });
+
+    return reply.status(201).send({ accessToken: token, name: user.name });
   } catch (err) {
     return reply.status(400).send({ msg: "Internal failure", err });
   }
